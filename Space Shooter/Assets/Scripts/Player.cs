@@ -17,6 +17,10 @@ public class Player : MonoBehaviour
 
     private float _nextFire = -1.0f;
 
+    [SerializeField]
+    private int _lives = 3;
+    
+
     void Start()
     {
         transform.position = new Vector3(0, -2.5f, 0);       
@@ -33,7 +37,7 @@ public class Player : MonoBehaviour
 
     }
 
-    private void _playerMovement()
+    void _playerMovement()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticallInput = Input.GetAxis("Vertical");
@@ -64,7 +68,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void _playerShoot()
+    void _playerShoot()
     {
 
         _nextFire = Time.time + _fireRate;
@@ -72,5 +76,15 @@ public class Player : MonoBehaviour
         // Skapar (i detta fall) min laser prefab vid spelarens position. identity läser av rotationen.
         Instantiate(_laserPrefab, transform.position + _laserOffsetPosition, Quaternion.identity);
 
+    }
+
+    public void Damage()
+    {
+        _lives--;
+
+        if (_lives < 1)
+        {
+            Destroy(this.gameObject);
+        }
     }
 }
