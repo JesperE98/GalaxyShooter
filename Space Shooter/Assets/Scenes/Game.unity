@@ -414,8 +414,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementSpeed: 10
   _laserPrefab: {fileID: 1581084657914980819, guid: 10d44cd02082309488edae6f7c5f9680, type: 3}
-  _fireRate: 0.15
   _lives: 3
+  _fireRate: 0.15
 --- !u!1 &2021072592
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,6 +446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 2828464095027053127, guid: a3088b938fc199347816ee03015e3786, type: 3}
+  _enemyContainer: {fileID: 2029038774}
 --- !u!4 &2021072594
 Transform:
   m_ObjectHideFlags: 0
