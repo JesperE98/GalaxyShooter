@@ -29,7 +29,7 @@ public class SpawnManager : MonoBehaviour
             _newEnemy.transform.parent = _enemyContainer.transform;
             yield return new WaitForSeconds(1.5f);         
         }
-        Destroy(_enemyPrefab);
+        
     }
 
     public void StopTheGame()

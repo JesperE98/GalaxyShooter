@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _fireRate = 0.5f;
     private float _nextFire = -1.0f;
-    private Vector3 _laserOffsetPosition = new Vector3(0f, 1.3f, 0);
+    private Vector3 _laserOffsetPosition = new Vector3(0f, 0.75f, 0);
     private SpawnManager _spawnManager;
 
 
