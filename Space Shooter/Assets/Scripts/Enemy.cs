@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
         EnemyMovement();
     }
 
-    private void EnemyMovement()
+    public void EnemyMovement()
     {
         
         transform.Translate(Vector3.down * _movementSpeed * Time.deltaTime);
