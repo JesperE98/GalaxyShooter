@@ -1,20 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private float _movementSpeed = 2f;
-    [SerializeField]
-    private GameObject _laserPrefab;
-    [SerializeField]
-    private int _lives = 3;
-    [SerializeField]
-    private float _fireRate = 0.5f;
+    [SerializeField] private float _movementSpeed = 2f;
+    [SerializeField] private int _lives = 3;
+    [SerializeField] private float _fireRate = 0.5f;
+    [SerializeField] private GameObject _laserPrefab;
+    [SerializeField] private GameObject _tripleShotPrefab;
+    
+    public bool _tripleShotActive = false;
     private float _nextFire = -1.0f;
     private Vector3 _laserOffsetPosition = new Vector3(0f, 0.75f, 0);
+    private Vector3 _tripleLaserOffsetPosition = new Vector3(0f, 0.75f, 0);
     private SpawnManager _spawnManager;
+
 
 
     void Start()
@@ -31,12 +33,10 @@ public class Player : MonoBehaviour
     void Update()
     {
         _playerMovement();
-
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire)
         {
             _playerShoot();
         }
-
     }
 
     void _playerMovement()
@@ -70,14 +70,19 @@ public class Player : MonoBehaviour
         }
     }
 
-    void _playerShoot()
+    public void _playerShoot()
     {
-
         _nextFire = Time.time + _fireRate;
 
         // Skapar (i detta fall) min laser prefab vid spelarens position. identity läser av rotationen.
-        Instantiate(_laserPrefab, transform.position + _laserOffsetPosition, Quaternion.identity);
-
+        if (_tripleShotActive == true)
+        {           
+            Instantiate(_tripleShotPrefab, transform.position + _tripleLaserOffsetPosition, Quaternion.identity);
+        } 
+        else
+        {
+            Instantiate(_laserPrefab, transform.position + _laserOffsetPosition, Quaternion.identity);
+        }
     }
 
     public void Damage()
