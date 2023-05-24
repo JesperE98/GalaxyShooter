@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -8,17 +9,17 @@ public class SpawnManager : MonoBehaviour
 {  
     [SerializeField] private GameObject _enemyPrefab;
     [SerializeField] private GameObject _enemyContainer;
-    [SerializeField] private GameObject _tripleShotPowerUpPrefab;
     [SerializeField] private GameObject _powerUpContainer;
+    [SerializeField] private List<GameObject> _powerUps = new List<GameObject>();
 
     private bool _stopSpawning = false;
-    public bool _tripleShotPowerUpSpawning = false;
+    private bool _randomPowerUpSpawning = false;
+
 
     void Start()
     {
         StartCoroutine(EnemySpawnRoutine());
-        StartCoroutine(PowerUpSpawnRoutine());
-       
+        StartCoroutine(SpawnPowerUpRoutine());
     }
 
 
@@ -33,19 +34,21 @@ public class SpawnManager : MonoBehaviour
         
     }
 
-    private IEnumerator PowerUpSpawnRoutine()
+    IEnumerator SpawnPowerUpRoutine()
     {
-        while (_tripleShotPowerUpSpawning == false)
+        while (_randomPowerUpSpawning == false)
         {
-            GameObject _newPowerUp = Instantiate(_tripleShotPowerUpPrefab, new Vector3(Random.Range(-9.5f, 9.5f), 8.0f, 0f), Quaternion.identity);
-            _newPowerUp.transform.parent = _powerUpContainer.transform;
-            yield return new WaitForSeconds(Random.Range(10, 20));
+            Vector3 _postToSpawn = new Vector3(Random.Range(-9.5f, 9.5f), 8.0f, 0f);
+            int _randomPowerUp = Random.Range(0,3);
+            GameObject _newRandomPowerUp = Instantiate(_powerUps[_randomPowerUp], _postToSpawn, Quaternion.identity);
+            _newRandomPowerUp.transform.parent = _powerUpContainer.transform;
+            yield return new WaitForSeconds(Random.Range(8, 20));
         }
     }
 
     public void StopTheGame()
     {
         _stopSpawning = true;
-        _tripleShotPowerUpSpawning = true;
+        _randomPowerUpSpawning = true;
     }
 }
