@@ -11,7 +11,7 @@ public class PowerUp : MonoBehaviour
 
     void Start()
     {
-        _player = GameObject.Find("Player").GetComponent<Player>();       
+       
     }
 
     void Update()
@@ -41,7 +41,8 @@ public class PowerUp : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        Player _player = other.transform.GetComponent<Player>();
+        if (_player != null)
         {
             switch (_powerUpID)
             {

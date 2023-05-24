@@ -89,7 +89,7 @@ public class Player : MonoBehaviour
 
     public void SpeedBoostActive()
     {
-        _isSpeedBoostActive = true;
+        _isSpeedBoostActive = true; 
         _movementSpeed *= _speedMultiplier;
         StartCoroutine(SpeedBoostPowerDownRoutine());
     }
