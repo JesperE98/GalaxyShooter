@@ -5,23 +5,24 @@ using UnityEngine;
 
 
 public class SpawnManager : MonoBehaviour
-{
-    private bool _stopSpawning = false;
+{  
+    [SerializeField] private GameObject _enemyPrefab;
+    [SerializeField] private GameObject _enemyContainer;
+    [SerializeField] private GameObject _tripleShotPowerUpPrefab;
+    [SerializeField] private GameObject _powerUpContainer;
 
-    
-    [SerializeField]
-    private GameObject _enemyPrefab;
-    [SerializeField]
-    private GameObject _enemyContainer;
+    private bool _stopSpawning = false;
+    public bool _tripleShotPowerUpSpawning = false;
 
     void Start()
     {
-        StartCoroutine(SpawnRoutine());
-
+        StartCoroutine(EnemySpawnRoutine());
+        StartCoroutine(PowerUpSpawnRoutine());
+       
     }
 
 
-    public IEnumerator SpawnRoutine()
+    private IEnumerator EnemySpawnRoutine()
     {
         while (_stopSpawning == false)
         {
@@ -32,8 +33,19 @@ public class SpawnManager : MonoBehaviour
         
     }
 
+    private IEnumerator PowerUpSpawnRoutine()
+    {
+        while (_tripleShotPowerUpSpawning == false)
+        {
+            GameObject _newPowerUp = Instantiate(_tripleShotPowerUpPrefab, new Vector3(Random.Range(-9.5f, 9.5f), 8.0f, 0f), Quaternion.identity);
+            _newPowerUp.transform.parent = _powerUpContainer.transform;
+            yield return new WaitForSeconds(Random.Range(10, 20));
+        }
+    }
+
     public void StopTheGame()
     {
         _stopSpawning = true;
+        _tripleShotPowerUpSpawning = true;
     }
 }
