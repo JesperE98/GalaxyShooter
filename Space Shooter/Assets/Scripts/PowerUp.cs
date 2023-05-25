@@ -7,8 +7,6 @@ public class PowerUp : MonoBehaviour
     [SerializeField] private float _powerUpSpeed = 3.0f;
     [SerializeField] private int _powerUpID;
 
-    private Player _player;
-
     void Start()
     {
        
