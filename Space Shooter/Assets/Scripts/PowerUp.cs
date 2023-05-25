@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
-    [SerializeField] private float _powerUpSpeed = 3.0f;
+    [SerializeField] private float _powerUpSpeed = 5.0f;
     [SerializeField] private int _powerUpID;
 
-    void Start()
-    {
-       
-    }
+    [SerializeField] private AudioClip _clip;
 
     void Update()
     {
@@ -39,12 +36,14 @@ public class PowerUp : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+
         Player _player = other.transform.GetComponent<Player>();
         if (_player != null)
         {
+            AudioSource.PlayClipAtPoint(_clip, transform.position);
             switch (_powerUpID)
             {
-                case 0:
+                case 0:                  
                     _player.TripleShotActive();
                     print("You got the Triple Shot Power Up!");
                     Destroy(this.gameObject);
@@ -56,7 +55,7 @@ public class PowerUp : MonoBehaviour
                     Destroy(this.gameObject);
                     break;
 
-                case 2:
+                case 2:                    
                     _player.ShieldActive();
                     print("You got the Shield Power Up!");
                     Destroy(this.gameObject);

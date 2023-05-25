@@ -11,10 +11,12 @@ public class Enemy : MonoBehaviour
     private Player _player;
     private Animator _animator;
     private BoxCollider2D _boxCollider2D;
+    private AudioSource _audioSource;
 
     void Awake()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+        _audioSource = GetComponent<AudioSource>();
 
         if (_player == null )
             {
@@ -61,10 +63,11 @@ public class Enemy : MonoBehaviour
             {
                 _player.Damage();               
             }
-            
+            _audioSource.Play();
             _animator.SetTrigger("OnEnemyDeath");
             _movementSpeed = 1.5f;
-            Destroy(this.gameObject, 3.0f);           
+            Destroy(this.gameObject, 3.0f);
+
         }
         else if (other.CompareTag("Laser"))
         {
@@ -76,7 +79,7 @@ public class Enemy : MonoBehaviour
                 _player.ScoreManager(10);
             }
 
-            
+            _audioSource.Play();
             _animator.SetTrigger("OnEnemyDeath");
             _movementSpeed = 1.5f;
             Destroy(this.gameObject, 3.0f);
