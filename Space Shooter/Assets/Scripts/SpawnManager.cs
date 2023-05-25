@@ -40,10 +40,10 @@ public class SpawnManager : MonoBehaviour
         while (_randomPowerUpSpawning == false)
         {
             Vector3 _postToSpawn = new Vector3(Random.Range(-9.5f, 9.5f), 8.0f, 0f);
-            int _randomPowerUp = Random.Range(1,3);
+            int _randomPowerUp = Random.Range(0,3);
             GameObject _newRandomPowerUp = Instantiate(_powerUps[_randomPowerUp], _postToSpawn, Quaternion.identity);
             _newRandomPowerUp.transform.parent = _powerUpContainer.transform;
-            yield return new WaitForSeconds(Random.Range(8, 20));
+            yield return new WaitForSeconds(Random.Range(7, 17));
         }
     }
 

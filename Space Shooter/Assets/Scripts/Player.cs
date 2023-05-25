@@ -139,12 +139,4 @@ public class Player : MonoBehaviour
             Destroy(this.gameObject);          
         }
     }
-
-    public void Restartlevel()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
-    }
 }
