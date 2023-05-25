@@ -11,8 +11,11 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private GameObject _tripleShotPrefab;
     [SerializeField] private GameObject _shieldPrefab;
+    [SerializeField] private GameObject _explosionPrefab;
+    [SerializeField] private GameObject[] _playerEngineDamagedPrefabs;
     [SerializeField] private float _movementSpeed = 5f;
     [SerializeField] private int _score;
+
 
     private int _lives = 3;
     private bool _isTripleShotActive = false;
@@ -43,6 +46,9 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("The UIManager is NULL.");
         }
+
+        _playerEngineDamagedPrefabs[0].SetActive(false);
+        _playerEngineDamagedPrefabs[1].SetActive(false);
     }
 
     void Update()
@@ -133,10 +139,16 @@ public class Player : MonoBehaviour
         _lives--;
         _uiManager.UpdateLives(_lives);
 
+        if (_lives == 2) { _playerEngineDamagedPrefabs[0].SetActive(true); }
+
+
+        if (_lives == 1) { _playerEngineDamagedPrefabs[1].SetActive(true); }
+
         if (_lives < 1)
         {
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             _spawnManager.StopTheGame();
-            Destroy(this.gameObject);          
+            Destroy(this.gameObject, 0.3f);          
         }
     }
 }
