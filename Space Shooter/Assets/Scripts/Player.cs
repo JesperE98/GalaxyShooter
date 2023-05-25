@@ -118,18 +118,24 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(10.0f);
         _isTripleShotActive = false;
+        _uiManager._text[2].gameObject.SetActive(false);
 
     }
 
     public void SpeedBoostActive()
     {
-        _isSpeedBoostActive = true; 
-        _movementSpeed *= _speedMultiplier;
-        StartCoroutine(SpeedBoostPowerDownRoutine());
+        _isSpeedBoostActive = true;
+        if (_isSpeedBoostActive == true)
+        {
+            _movementSpeed *= _speedMultiplier;
+            StartCoroutine(SpeedBoostPowerDownRoutine());
+        }
+
     }
     IEnumerator SpeedBoostPowerDownRoutine()
     {
         yield return new WaitForSeconds(5.0f);
+        _uiManager._text[3].gameObject.SetActive(false);
         _isSpeedBoostActive = false;
         _movementSpeed /= _speedMultiplier;
     }
@@ -152,6 +158,7 @@ public class Player : MonoBehaviour
         {
             _isShieldActive = false;
             _shieldPrefab.SetActive(false);
+            _uiManager._text[4].gameObject.SetActive(false);
             return;
         }
 

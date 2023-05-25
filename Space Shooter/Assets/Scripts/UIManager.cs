@@ -10,16 +10,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _scoreText;
     [SerializeField] private Sprite[] _livesSprite;
     [SerializeField] private Image _livesImg;
-    [SerializeField] private TMP_Text _gameOverText;
-    [SerializeField] private TMP_Text _restartLevelText;
+    public TMP_Text[] _text;
+
 
     private GameManager _gameManager;
 
     void Awake()
     {
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        _gameOverText.gameObject.SetActive(false);
-        _restartLevelText.gameObject.SetActive(false);
+        _text[0].gameObject.SetActive(false);
+        _text[1].gameObject.SetActive(false);
         _scoreText.text = "Score: " + 0;
     }
 
@@ -42,8 +42,8 @@ public class UIManager : MonoBehaviour
 
     void GameOverSequence()
     {
-        _gameOverText.gameObject.SetActive(true);
-        _restartLevelText.gameObject.SetActive(true);
+        _text[0].gameObject.SetActive(true);
+        _text[1].gameObject.SetActive(true);
         StartCoroutine(GameOverFlickerRoutine());
     }
 
@@ -51,9 +51,9 @@ public class UIManager : MonoBehaviour
     {
         while(true)
         {
-            _gameOverText.text = "GAME OVER";
+            _text[0].text = "GAME OVER";
             yield return new WaitForSeconds(0.5f);
-            _gameOverText.text = "";
+            _text[0].text = "";
             yield return new WaitForSeconds(0.5f);
         }
     }

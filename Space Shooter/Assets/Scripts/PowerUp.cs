@@ -1,14 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
     [SerializeField] private float _powerUpSpeed = 5.0f;
     [SerializeField] private int _powerUpID;
-
     [SerializeField] private AudioClip _clip;
 
+    private UIManager _uiManager;
+
+    void Awake()
+    {
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+    }
     void Update()
     {
         PowerUpMovement();
@@ -43,21 +49,21 @@ public class PowerUp : MonoBehaviour
             AudioSource.PlayClipAtPoint(_clip, transform.position);
             switch (_powerUpID)
             {
-                case 0:                  
+                case 0:
                     _player.TripleShotActive();
-                    print("You got the Triple Shot Power Up!");
+                    _uiManager._text[2].gameObject.SetActive(true);
                     Destroy(this.gameObject);
                     break;
 
                 case 1:
                     _player.SpeedBoostActive();
-                    print("You got the Speed Boost Power Up!");
+                    _uiManager._text[3].gameObject.SetActive(true);
                     Destroy(this.gameObject);
                     break;
 
-                case 2:                    
+                case 2:
                     _player.ShieldActive();
-                    print("You got the Shield Power Up!");
+                    _uiManager._text[4].gameObject.SetActive(true);
                     Destroy(this.gameObject);
                     break;
 
