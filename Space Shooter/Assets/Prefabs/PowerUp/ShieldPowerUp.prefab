@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 1158853224530387506}
   - component: {fileID: 4997857074008983420}
   - component: {fileID: 1878457046587236250}
-  - component: {fileID: 257331707932539169}
   - component: {fileID: 2752224682644407063}
+  - component: {fileID: 257331707932539169}
   - component: {fileID: 5525572069399407726}
   m_Layer: 0
   m_Name: ShieldPowerUp
@@ -50,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _powerUpSpeed: 3
   _powerUpID: 2
+  _clip: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
 --- !u!212 &1878457046587236250
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -102,27 +103,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &257331707932539169
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7497098359250127784}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &2752224682644407063
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -149,6 +129,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.3184252, y: 3.6854587}
   m_EdgeRadius: 0
+--- !u!50 &257331707932539169
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7497098359250127784}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!95 &5525572069399407726
 Animator:
   serializedVersion: 5

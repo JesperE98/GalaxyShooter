@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class Player : MonoBehaviour
 {
@@ -12,11 +13,11 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _tripleShotPrefab;
     [SerializeField] private GameObject _shieldPrefab;
     [SerializeField] private GameObject _explosionPrefab;
+    [SerializeField] private AudioClip _laserSoundClip;
     [SerializeField] private GameObject[] _playerEngineDamagedPrefabs;
-    [SerializeField] private float _movementSpeed = 5f;
-    [SerializeField] private int _score;
 
-
+    private float _movementSpeed = 5f;
+    private int _score;
     private int _lives = 3;
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
@@ -25,26 +26,39 @@ public class Player : MonoBehaviour
     private int _speedMultiplier = 2;
     private Vector3 _laserOffsetPosition = new Vector3(0f, 0.75f, 0);
     private Vector3 _tripleLaserOffsetPosition = new Vector3(0f, 0.75f, 0);
-    
+
     private SpawnManager _spawnManager;
     private UIManager _uiManager;
+    private AudioSource _audioSource;
 
 
     void Awake()
-    { 
+    {
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _audioSource = GetComponent<AudioSource>();
 
         transform.position = new Vector3(0, -2.5f, 0);
 
-        if (_spawnManager == null)
-        {
-            Debug.LogError("The Spawn Manager is NULL.");
+        if (_spawnManager == null) 
+        { 
+            Debug.LogError("The Spawn Manager is NULL."); 
         }
         
-        if (_uiManager == null)
+
+        if (_uiManager == null) 
         {
             Debug.LogError("The UIManager is NULL.");
+        }
+
+
+        if (_audioSource == null) 
+        {
+            Debug.Log(" The AudioSource is NULL"); 
+        }
+        else 
+        { 
+            _audioSource.clip = _laserSoundClip; 
         }
 
         _playerEngineDamagedPrefabs[0].SetActive(false);
@@ -53,26 +67,30 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        _playerMovement();
+        PlayerMovement();
 
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire)
         {
-            _nextFire = Time.time + _fireRate;
-
-            if (_isTripleShotActive == false)
-            {
-                Instantiate(_laserPrefab, transform.position + _laserOffsetPosition, Quaternion.identity);
-            }
-            else if (_isTripleShotActive == true)
-            {
-                Instantiate(_tripleShotPrefab, transform.position + _tripleLaserOffsetPosition, Quaternion.identity);
-            }
+            PlayerShoot();
         }
-
-
     }
 
-    void _playerMovement()
+    void PlayerShoot()
+    {
+        _nextFire = Time.time + _fireRate;
+
+            if (_isTripleShotActive == true) 
+            { 
+                Instantiate(_tripleShotPrefab, transform.position + _tripleLaserOffsetPosition, Quaternion.identity); 
+            }
+            else
+            { 
+                Instantiate(_laserPrefab, transform.position + _laserOffsetPosition, Quaternion.identity); 
+            }       
+        _audioSource.Play();
+    }
+
+    void PlayerMovement()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticallInput = Input.GetAxis("Vertical");
