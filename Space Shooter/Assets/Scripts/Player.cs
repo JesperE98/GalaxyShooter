@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -10,29 +11,37 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private GameObject _tripleShotPrefab;
     [SerializeField] private GameObject _shieldPrefab;
+    [SerializeField] private float _movementSpeed = 5f;
+    [SerializeField] private int _score;
 
     private int _lives = 3;
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
     private bool _isShieldActive = false;
     private float _nextFire = -1.0f;
-    [SerializeField] private float _movementSpeed = 5f;
     private int _speedMultiplier = 2;
     private Vector3 _laserOffsetPosition = new Vector3(0f, 0.75f, 0);
     private Vector3 _tripleLaserOffsetPosition = new Vector3(0f, 0.75f, 0);
-
+    
     private SpawnManager _spawnManager;
+    private UIManager _uiManager;
 
 
-
-    void Start()
-    {
-        transform.position = new Vector3(0, -2.5f, 0);    
+    void Awake()
+    { 
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
+        transform.position = new Vector3(0, -2.5f, 0);
 
         if (_spawnManager == null)
         {
             Debug.LogError("The Spawn Manager is NULL.");
+        }
+        
+        if (_uiManager == null)
+        {
+            Debug.LogError("The UIManager is NULL.");
         }
     }
 
@@ -106,6 +115,12 @@ public class Player : MonoBehaviour
         _shieldPrefab.SetActive(true);       
     }
 
+    public void ScoreManager(int points)
+    {
+        _score += points;
+        _uiManager.UIScoreManager(_score);
+    }
+
     public void Damage()
     {
         if (_isShieldActive == true)
@@ -116,15 +131,20 @@ public class Player : MonoBehaviour
         }
 
         _lives--;
-        Debug.Log("Health Remaining: " + _lives);
+        _uiManager.UpdateLives(_lives);
+
         if (_lives < 1)
         {
             _spawnManager.StopTheGame();
-            Destroy(this.gameObject);
-            Debug.Log("Game Over");
-            
+            Destroy(this.gameObject);          
         }
     }
 
-
+    public void Restartlevel()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+    }
 }
