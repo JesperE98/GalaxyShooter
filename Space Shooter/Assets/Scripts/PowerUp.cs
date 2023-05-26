@@ -52,12 +52,14 @@ public class PowerUp : MonoBehaviour
                 case 0:
                     _player.TripleShotActive();
                     _uiManager._text[2].gameObject.SetActive(true);
+                    _uiManager._text[3].gameObject.SetActive(false);
                     Destroy(this.gameObject);
                     break;
 
                 case 1:
                     _player.SpeedBoostActive();
                     _uiManager._text[3].gameObject.SetActive(true);
+                    _uiManager._text[2].gameObject.SetActive(false);
                     Destroy(this.gameObject);
                     break;
 
