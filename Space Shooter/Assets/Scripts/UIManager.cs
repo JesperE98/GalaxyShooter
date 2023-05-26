@@ -6,12 +6,11 @@ using TMPro;
 
 public class UIManager : MonoBehaviour 
 {
-
     [SerializeField] private TMP_Text _scoreText;
     [SerializeField] private Sprite[] _livesSprite;
     [SerializeField] private Image _livesImg;
-    public TMP_Text[] _text;
 
+    public TMP_Text[] _text;
 
     private GameManager _gameManager;
 
@@ -37,7 +36,6 @@ public class UIManager : MonoBehaviour
             GameOverSequence();
             _gameManager.GameOver();
         }
-
     }
 
     void GameOverSequence()

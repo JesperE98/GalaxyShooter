@@ -26,23 +26,20 @@ public class PowerUp : MonoBehaviour
 
         if (_powerUpID == 0 && transform.position.y <= -5.8f)
         {
-            Object.Destroy(this.gameObject);
-
+            Destroy(this.gameObject);
         } 
         else if (_powerUpID == 1 && transform.position.y <= -5.8f)
         {
-            Object.Destroy(this.gameObject);            
+            Destroy(this.gameObject);            
         }
         else if (_powerUpID == 2 && transform.position.y <= -5.8f)
         {
-            Object.Destroy(this.gameObject);
-
+            Destroy(this.gameObject);
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-
         Player _player = other.transform.GetComponent<Player>();
         if (_player != null)
         {
