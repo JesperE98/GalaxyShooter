@@ -6,8 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 
 public class Player : MonoBehaviour
-{
-  
+{  
     [SerializeField] private float _fireRate = 0.5f;
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private GameObject _tripleShotPrefab;
@@ -31,7 +30,6 @@ public class Player : MonoBehaviour
     private UIManager _uiManager;
     private AudioSource _audioSource;
 
-
     void Awake()
     {
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
@@ -45,12 +43,10 @@ public class Player : MonoBehaviour
             Debug.LogError("The Spawn Manager is NULL."); 
         }
         
-
         if (_uiManager == null) 
         {
             Debug.LogError("The UIManager is NULL.");
         }
-
 
         if (_audioSource == null) 
         {
@@ -61,7 +57,6 @@ public class Player : MonoBehaviour
             _audioSource.clip = _laserSoundClip; 
         }
 
-
         _playerEngineDamagedPrefabs[0].SetActive(false);
         _playerEngineDamagedPrefabs[1].SetActive(false);
     }
@@ -71,7 +66,7 @@ public class Player : MonoBehaviour
         PlayerMovement();
 
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire)
-        {
+        {           
             PlayerShoot();
         }
     }
@@ -119,7 +114,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(10.0f);
         _isTripleShotActive = false;
         _uiManager._text[2].gameObject.SetActive(false);
-
     }
 
     public void SpeedBoostActive()
@@ -130,7 +124,6 @@ public class Player : MonoBehaviour
             _movementSpeed *= _speedMultiplier;
             StartCoroutine(SpeedBoostPowerDownRoutine());
         }
-
     }
     IEnumerator SpeedBoostPowerDownRoutine()
     {
@@ -166,7 +159,6 @@ public class Player : MonoBehaviour
         _uiManager.UpdateLives(_lives);
 
         if (_lives == 2) { _playerEngineDamagedPrefabs[0].SetActive(true); }
-
 
         if (_lives == 1) { _playerEngineDamagedPrefabs[1].SetActive(true); }
 

@@ -6,7 +6,13 @@ using UnityEngine.Animations;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] private GameObject _enemyLaserPrefab;
+
     private float _movementSpeed = 3.0f;
+    private float _laserSpeed = 8.0f;
+    private float _fireRate = 3.0f;
+    private float _nextFire = -1f;
+    private bool _isEnemyDestroyed = false;
 
     private Player _player;
     private Animator _animator;
@@ -37,19 +43,42 @@ public class Enemy : MonoBehaviour
             Debug.Log("The Collider is NULL");
         }
     }
+
+
     void Update()
     {
         EnemyMovement();
+
+        if (Time.time > _nextFire)
+        {
+            _nextFire = Random.Range(3f, 7f);
+            _nextFire = Time.time + _fireRate;
+            EnemyFire();
+        }
     }
 
     private void EnemyMovement()
     {
-        
         transform.Translate(Vector3.down * _movementSpeed * Time.deltaTime);
 
         if (transform.position.y <= -5.8f)
         {
             Object.Destroy(this.gameObject);
+        }
+    }
+
+    void EnemyFire ()
+    {
+        if (_isEnemyDestroyed == false)
+        {
+            transform.Translate(Vector3.down * _laserSpeed * Time.deltaTime);
+            GameObject _enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
+            LaserBehaviour[] _lasers = _enemyLaser.GetComponentsInChildren<LaserBehaviour>();
+
+            for (int i = 0; i < _lasers.Length; i++)
+            {
+                _lasers[i].AssignEnemyLaser();
+            }
         }
     }
 
@@ -63,6 +92,8 @@ public class Enemy : MonoBehaviour
             {
                 _player.Damage();               
             }
+
+            _isEnemyDestroyed = true;
             _audioSource.Play();
             _animator.SetTrigger("OnEnemyDeath");
             _movementSpeed = 1.5f;
@@ -73,12 +104,13 @@ public class Enemy : MonoBehaviour
         {
             Destroy(_boxCollider2D);
             Destroy(other.gameObject);
-            
+            _isEnemyDestroyed = true;
+
             if (_player != null)
             {
                 _player.ScoreManager(10);
             }
-
+           
             _audioSource.Play();
             _animator.SetTrigger("OnEnemyDeath");
             _movementSpeed = 1.5f;
