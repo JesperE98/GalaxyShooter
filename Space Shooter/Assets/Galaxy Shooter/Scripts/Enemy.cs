@@ -16,33 +16,33 @@ public class Enemy : MonoBehaviour
     private bool _isEnemyDestroyed = false;
 
     private Player _player;
+    private Player _player1;
+    private Player _player2;
+
+
     private Animator _animator;
     private BoxCollider2D _boxCollider2D;
     private AudioSource _audioSource;
+    private GameManager _gameManager;
 
     void Awake()
     {
-        _player = GameObject.Find("Player").GetComponent<Player>();
+        
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _audioSource = GetComponent<AudioSource>();
 
-        if (_player == null )
-            {
-                Debug.Log("The Player is NULL");
-            }
+        if (_gameManager._isCoopMode == false)
+        {
+            _player = GameObject.Find("Player(Clone)").GetComponent<Player>();
+        }
+        else if (_gameManager._isCoopMode == true)
+        {
+            _player1 = GameObject.Find("Player_1(Clone)").GetComponent<Player>();
+            _player2 = GameObject.Find("Player_2(Clone)").GetComponent<Player>();
+        }
 
         _animator = GetComponent<Animator>();
-
-        if (_animator == null )
-            {
-                Debug.Log("The Player is NULL");
-            }
-
         _boxCollider2D = GetComponent<BoxCollider2D>();
-
-        if (_boxCollider2D == null )
-        {
-            Debug.Log("The Collider is NULL");
-        }
     }
 
 
