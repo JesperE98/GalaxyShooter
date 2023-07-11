@@ -6,10 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 
 public class Player : MonoBehaviour
-{
-
-    [SerializeField] private bool isPlayerOne = false;
-    [SerializeField] private bool isPlayerTwo = false;
+{  
     [SerializeField] private float _fireRate = 0.5f;
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private GameObject _tripleShotPrefab;
@@ -29,7 +26,6 @@ public class Player : MonoBehaviour
     private Vector3 _laserOffsetPosition = new Vector3(0f, 0.75f, 0);
     private Vector3 _tripleLaserOffsetPosition = new Vector3(0f, 0.75f, 0);
 
-    private GameManager _gameManager;
     private SpawnManager _spawnManager;
     private UIManager _uiManager;
     private AudioSource _audioSource;
@@ -39,45 +35,40 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
-        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-/*
-        if (_gameManager._isCoopMode == false)
-        {
-            _gameManager._player1.transform.position = new Vector3(0, -2.5f, 0);
-        } 
-        else if (_gameManager._isCoopMode == true)
-        {
-            _gameManager._player1.transform.position = new Vector3(-5, -2.5f, 0);
-            _gameManager._player2.transform.position = new Vector3(5, -2.5f, 0);
+
+        transform.position = new Vector3(0, -2.5f, 0);
+
+        if (_spawnManager == null) 
+        { 
+            Debug.LogError("The Spawn Manager is NULL."); 
         }
-*/
-        _audioSource.clip = _laserSoundClip; 
+        
+        if (_uiManager == null) 
+        {
+            Debug.LogError("The UIManager is NULL.");
+        }
+
+        if (_audioSource == null) 
+        {
+            Debug.Log(" The AudioSource is NULL"); 
+        }
+        else 
+        { 
+            _audioSource.clip = _laserSoundClip; 
+        }
+
         _playerEngineDamagedPrefabs[0].SetActive(false);
         _playerEngineDamagedPrefabs[1].SetActive(false);
     }
 
     void Update()
     {
-        if (isPlayerOne == true)
-        {
-            PlayerMovement();
+        PlayerMovement();
 
-            if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire)
-            {
-                PlayerShoot();
-            }
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire)
+        {           
+            PlayerShoot();
         }
-
-        if (isPlayerTwo == true)
-        {
-            Player2Movement();
-
-            if (Input.GetKeyDown(KeyCode.KeypadEnter) && Time.time > _nextFire)
-            {
-                Player2Shoot();
-            }
-        }
-
     }
 
     void PlayerShoot()
@@ -99,39 +90,6 @@ public class Player : MonoBehaviour
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticallInput = Input.GetAxis("Vertical");
-        Vector3 _direction = new Vector3(horizontalInput, verticallInput, 0f);
-        transform.Translate(_direction * _movementSpeed * Time.deltaTime);
-        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.6f, 0), 0);
-
-        if (transform.position.x >= 11f)
-        {
-            transform.position = new Vector3(-11f, transform.position.y, 0f);
-        }
-        else if (transform.position.x <= -11f)
-        {
-            transform.position = new Vector3(11f, transform.position.y, 0f);
-        }
-    }
-
-    void Player2Shoot()
-    {
-        _nextFire = Time.time + _fireRate;
-
-        if (_isTripleShotActive == true)
-        {
-            Instantiate(_tripleShotPrefab, transform.position + _tripleLaserOffsetPosition, Quaternion.identity);
-        }
-        else
-        {
-            Instantiate(_laserPrefab, transform.position + _laserOffsetPosition, Quaternion.identity);
-        }
-        _audioSource.Play();
-    }
-
-    void Player2Movement()
-    {
-        float horizontalInput = Input.GetAxis("Horizontal2");
-        float verticallInput = Input.GetAxis("Vertical2");
         Vector3 _direction = new Vector3(horizontalInput, verticallInput, 0f);
         transform.Translate(_direction * _movementSpeed * Time.deltaTime);
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.6f, 0), 0);
