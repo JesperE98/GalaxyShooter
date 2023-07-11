@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class LaserBehaviour : MonoBehaviour
 {
+    private GameManager _gameManager;
+    private Player _player;
+    private Enemy _enemy;
 
     private float _speed = 8.0f;
     private bool _isEnemyLaser = false;
-    
+
+    private void Start()
+    {
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _player = GameObject.Find("Player").GetComponent<Player>();
+    }
+
     void Update()
     {
         if (_isEnemyLaser == false)
@@ -56,21 +65,46 @@ public class LaserBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && _isEnemyLaser == true)
+        switch(_gameManager._isCoopMode)
         {
-            Player _player = other.GetComponent<Player>();
-            Enemy _enemy = other.GetComponent<Enemy>();
+            case false:
+                if (other.CompareTag("Player") && _isEnemyLaser == true)
+                {
+                    Player _player = other.GetComponent<Player>();
+                    Enemy _enemy = other.GetComponent<Enemy>();
 
-            if (_player != null) 
-            {
-                _player.Damage();
-            }
-            Destroy(this.gameObject);       
-            
-            if (_enemy == null)
-            {
-                this.gameObject.SetActive(false);
-            }
+                    if (_player != null)
+                    {
+                        _player.Damage();
+                    }
+                    Destroy(this.gameObject);
+
+                    if (_enemy == null)
+                    {
+                        this.gameObject.SetActive(false);
+                    }
+                }
+                break;
+
+            case true:
+                if (other.CompareTag("Player") && _isEnemyLaser == true)
+                {
+                    Player _player = other.GetComponent<Player>();
+                    Enemy _enemy = other.GetComponent<Enemy>();
+
+                    if (_player != null)
+                    {
+                        _player.Damage();
+                    }
+                    Destroy(this.gameObject);
+
+                    if (_enemy == null)
+                    {
+                        this.gameObject.SetActive(false);
+                    }
+                }
+                break;
         }
+
     }
 }

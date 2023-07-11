@@ -6,7 +6,15 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 
 public class Player : MonoBehaviour
-{  
+{
+    private GameManager _gameManager;
+    private SpawnManager _spawnManager;
+    private UIManager _uiManager;
+    private AudioSource _audioSource;
+
+    public bool _isPlayerOne = false;
+    public bool _isPlayerTwo = false;
+
     [SerializeField] private float _fireRate = 0.5f;
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private GameObject _tripleShotPrefab;
@@ -17,7 +25,8 @@ public class Player : MonoBehaviour
 
     private float _movementSpeed = 5f;
     private int _score;
-    private int _lives = 3;
+    private int _playerOneLives = 3;
+    private int _playerTwoLives = 3;
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
     private bool _isShieldActive = false;
@@ -25,10 +34,6 @@ public class Player : MonoBehaviour
     private int _speedMultiplier = 2;
     private Vector3 _laserOffsetPosition = new Vector3(0f, 0.75f, 0);
     private Vector3 _tripleLaserOffsetPosition = new Vector3(0f, 0.75f, 0);
-
-    private SpawnManager _spawnManager;
-    private UIManager _uiManager;
-    private AudioSource _audioSource;
 
     void Awake()
     {
@@ -155,14 +160,14 @@ public class Player : MonoBehaviour
             return;
         }
 
-        _lives--;
-        _uiManager.UpdateLives(_lives);
+        _playerOneLives--;
+        _uiManager.UpdateLives(_playerOneLives);
 
-        if (_lives == 2) { _playerEngineDamagedPrefabs[0].SetActive(true); }
+        if (_playerOneLives == 2) { _playerEngineDamagedPrefabs[0].SetActive(true); }
 
-        if (_lives == 1) { _playerEngineDamagedPrefabs[1].SetActive(true); }
+        if (_playerOneLives == 1) { _playerEngineDamagedPrefabs[1].SetActive(true); }
 
-        if (_lives < 1)
+        if (_playerOneLives < 1)
         {
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             _spawnManager.StopTheGame();

@@ -6,9 +6,9 @@ using TMPro;
 
 public class UIManager : MonoBehaviour 
 {
-    [SerializeField] private TMP_Text _scoreText;
-    [SerializeField] private Sprite[] _livesSprite;
-    [SerializeField] private Image _livesImg;
+    public TMP_Text _scoreText;
+    public Sprite[] _livesSprite;
+    public Image _livesImg;
 
     public TMP_Text[] _text;
 
