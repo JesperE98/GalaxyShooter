@@ -37,11 +37,32 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
 
-        transform.position = new Vector3(0, -2.5f, 0);
+        switch(_gameManager._isCoopMode)
+        {
+            case false:
+                if(_isPlayerOne != false)
+                {
+                    transform.position = new Vector3(0, -2.5f, 0);
+                }
+                break;
+
+            case true:
+                if (_isPlayerOne != false)
+                {
+                    transform.position = new Vector3(-5f, -2.5f, 0);
+                }
+
+                if (_isPlayerTwo != false)
+                {
+                    transform.position = new Vector3(5, -2.5f, 0);
+                }
+                break;
+        }
 
         if (_spawnManager == null) 
         { 

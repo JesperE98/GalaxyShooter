@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     private float _nextFire = -1f;
     private bool _isEnemyDestroyed = false;
 
+    private GameManager _gameManager;
     private Player _player;
     private Animator _animator;
     private BoxCollider2D _boxCollider2D;
@@ -22,7 +23,20 @@ public class Enemy : MonoBehaviour
 
     void Awake()
     {
-        _player = GameObject.Find("Player").GetComponent<Player>();
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        switch(_gameManager._isCoopMode)
+        {
+            case false: 
+                _player = GameObject.Find("Player").GetComponent<Player>();
+                break;
+
+            case true:
+                _player = GameObject.Find("Player").GetComponent<Player>();
+                _player = GameObject.Find("Player_2").GetComponent<Player>();
+                break;
+        }
+
         _audioSource = GetComponent<AudioSource>();
 
         if (_player == null )
@@ -84,39 +98,116 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        switch (_gameManager._isCoopMode)
         {
-            Destroy(_boxCollider2D);
-            _isEnemyDestroyed = true;
-            _enemyThrusterPrefab.SetActive(false);
+            case false:
+                if (other.CompareTag("Player"))
+                {
+                    Destroy(_boxCollider2D);
+                    _isEnemyDestroyed = true;
+                    _enemyThrusterPrefab.SetActive(false);
 
-            if (_player != null)
-            {
-                _player.Damage();               
-            }
+                    if (_player != null)
+                    {
+                        _player.Damage();
+                    }
 
-            _audioSource.Play();
-            _animator.SetTrigger("OnEnemyDeath");
-            _movementSpeed = 1.5f;
-            Destroy(this.gameObject, 3.0f);
+                    _audioSource.Play();
+                    _animator.SetTrigger("OnEnemyDeath");
+                    _movementSpeed = 1.5f;
+                    Destroy(this.gameObject, 3.0f);
+                }
+                else if (other.CompareTag("Laser"))
+                {
+                    Destroy(_boxCollider2D);
+                    Destroy(other.gameObject);
+                    _isEnemyDestroyed = true;
+                    _enemyThrusterPrefab.SetActive(false);
 
+                    if (_player != null)
+                    {
+                        _player.ScoreManager(10);
+                    }
+
+                    _audioSource.Play();
+                    _animator.SetTrigger("OnEnemyDeath");
+                    _movementSpeed = 1.5f;
+                    Destroy(this.gameObject, 3.0f);
+                }
+                break;
+
+            case true:
+                if (other.CompareTag("Player"))
+                {
+                    Destroy(_boxCollider2D);
+                    _isEnemyDestroyed = true;
+                    _enemyThrusterPrefab.SetActive(false);
+
+                    if (_player != null)
+                    {
+                        _player.Damage();
+                    }
+
+                    _audioSource.Play();
+                    _animator.SetTrigger("OnEnemyDeath");
+                    _movementSpeed = 1.5f;
+                    Destroy(this.gameObject, 3.0f);
+                }
+                else if (other.CompareTag("Laser"))
+                {
+                    Destroy(_boxCollider2D);
+                    Destroy(other.gameObject);
+                    _isEnemyDestroyed = true;
+                    _enemyThrusterPrefab.SetActive(false);
+
+                    if (_player != null)
+                    {
+                        _player.ScoreManager(10);
+                    }
+
+                    _audioSource.Play();
+                    _animator.SetTrigger("OnEnemyDeath");
+                    _movementSpeed = 1.5f;
+                    Destroy(this.gameObject, 3.0f);
+                }
+
+                if (other.CompareTag("PlayerTwo"))
+                {
+                    Destroy(_boxCollider2D);
+                    _isEnemyDestroyed = true;
+                    _enemyThrusterPrefab.SetActive(false);
+
+                    if (_player != null)
+                    {
+                        _player.Damage();
+                    }
+
+                    _audioSource.Play();
+                    _animator.SetTrigger("OnEnemyDeath");
+                    _movementSpeed = 1.5f;
+                    Destroy(this.gameObject, 3.0f);
+                }
+                else if (other.CompareTag("Laser"))
+                {
+                    Destroy(_boxCollider2D);
+                    Destroy(other.gameObject);
+                    _isEnemyDestroyed = true;
+                    _enemyThrusterPrefab.SetActive(false);
+
+                    if (_player != null)
+                    {
+                        _player.ScoreManager(10);
+                    }
+
+                    _audioSource.Play();
+                    _animator.SetTrigger("OnEnemyDeath");
+                    _movementSpeed = 1.5f;
+                    Destroy(this.gameObject, 3.0f);
+                }
+                break;
         }
-        else if (other.CompareTag("Laser"))
-        {
-            Destroy(_boxCollider2D);
-            Destroy(other.gameObject);
-            _isEnemyDestroyed = true;
-            _enemyThrusterPrefab.SetActive(false);
 
-            if (_player != null)
-            {
-                _player.ScoreManager(10);
-            }
-           
-            _audioSource.Play();
-            _animator.SetTrigger("OnEnemyDeath");
-            _movementSpeed = 1.5f;
-            Destroy(this.gameObject, 3.0f);
-        }       
+
+
     }
 }
