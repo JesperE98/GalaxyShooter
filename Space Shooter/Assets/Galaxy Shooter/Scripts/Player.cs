@@ -90,44 +90,110 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        PlayerMovement();
+        switch(_gameManager._isCoopMode)
+        {
+            case false:
+                PlayerOneMovement();
 
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire)
-        {           
-            PlayerShoot();
+                if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire)
+                {
+                    PlayerOneShoot();
+                }
+                break;
+
+            case true:
+                PlayerOneMovement();
+                PlayerTwoMovement();
+
+                if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire)
+                {
+                    PlayerOneShoot();
+                }
+
+                if (Input.GetKeyDown(KeyCode.KeypadEnter) && Time.time > _nextFire)
+                {
+                    PlayerTwoShoot();
+                }
+                break;
         }
+
     }
 
-    void PlayerShoot()
+    void PlayerOneShoot()
     {
-        _nextFire = Time.time + _fireRate;
+        if (_isPlayerOne == true)
+        {
+            _nextFire = Time.time + _fireRate;
 
-            if (_isTripleShotActive == true) 
-            { 
-                Instantiate(_tripleShotPrefab, transform.position + _tripleLaserOffsetPosition, Quaternion.identity); 
+            if (_isTripleShotActive == true)
+            {
+                Instantiate(_tripleShotPrefab, transform.position + _tripleLaserOffsetPosition, Quaternion.identity);
             }
             else
-            { 
-                Instantiate(_laserPrefab, transform.position + _laserOffsetPosition, Quaternion.identity); 
-            }       
-        _audioSource.Play();
+            {
+                Instantiate(_laserPrefab, transform.position + _laserOffsetPosition, Quaternion.identity);
+            }
+            _audioSource.Play();
+        }
     }
 
-    void PlayerMovement()
+    void PlayerTwoShoot()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticallInput = Input.GetAxis("Vertical");
-        Vector3 _direction = new Vector3(horizontalInput, verticallInput, 0f);
-        transform.Translate(_direction * _movementSpeed * Time.deltaTime);
-        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.6f, 0), 0);
+        if (_isPlayerTwo == true)
+        {
+            _nextFire = Time.time + _fireRate;
 
-        if (transform.position.x >= 11f)
-        {
-            transform.position = new Vector3(-11f, transform.position.y, 0f);
+            if (_isTripleShotActive == true)
+            {
+                Instantiate(_tripleShotPrefab, transform.position + _tripleLaserOffsetPosition, Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(_laserPrefab, transform.position + _laserOffsetPosition, Quaternion.identity);
+            }
+            _audioSource.Play();
         }
-        else if (transform.position.x <= -11f)
+    }
+
+    void PlayerOneMovement()
+    {
+        if (_isPlayerOne == true)
         {
-            transform.position = new Vector3(11f, transform.position.y, 0f);
+            float horizontalInput = Input.GetAxis("Horizontal");
+            float verticallInput = Input.GetAxis("Vertical");
+            Vector3 _direction = new Vector3(horizontalInput, verticallInput, 0f);
+            transform.Translate(_direction * _movementSpeed * Time.deltaTime);
+            transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.6f, 0), 0);
+
+            if (transform.position.x >= 11f)
+            {
+                transform.position = new Vector3(-11f, transform.position.y, 0f);
+            }
+            else if (transform.position.x <= -11f)
+            {
+                transform.position = new Vector3(11f, transform.position.y, 0f);
+            }
+        }
+    }
+
+    void PlayerTwoMovement()
+    {
+        if (_isPlayerTwo == true)
+        {
+            float horizontalInput = Input.GetAxis("Horizontal 2");
+            float verticallInput = Input.GetAxis("Vertical 2");
+            Vector3 _direction = new Vector3(horizontalInput, verticallInput, 0f);
+            transform.Translate(_direction * _movementSpeed * Time.deltaTime);
+            transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.6f, 0), 0);
+
+            if (transform.position.x >= 11f)
+            {
+                transform.position = new Vector3(-11f, transform.position.y, 0f);
+            }
+            else if (transform.position.x <= -11f)
+            {
+                transform.position = new Vector3(11f, transform.position.y, 0f);
+            }
         }
     }
 
