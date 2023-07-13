@@ -13,15 +13,17 @@ public class UIManager : MonoBehaviour
     public Image _livesImg;
     public Image _livesImg2;
 
-    public TMP_Text[] _text;
+    public TMP_Text[] _gameOverText;
+    public TMP_Text[] _powerUpText;
+    public TMP_Text[] _powerUpText2;
 
     private GameManager _gameManager;
 
     void Awake()
     {
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        _text[0].gameObject.SetActive(false);
-        _text[1].gameObject.SetActive(false);
+        _gameOverText[0].gameObject.SetActive(false);
+        _gameOverText[1].gameObject.SetActive(false);
 
         switch(_gameManager._isCoopMode)
         {
@@ -73,8 +75,8 @@ public class UIManager : MonoBehaviour
 
     void GameOverSequence()
     {
-        _text[0].gameObject.SetActive(true);
-        _text[1].gameObject.SetActive(true);
+        _gameOverText[0].gameObject.SetActive(true);
+        _gameOverText[1].gameObject.SetActive(true);
         StartCoroutine(GameOverFlickerRoutine());
     }
 
@@ -82,9 +84,9 @@ public class UIManager : MonoBehaviour
     {
         while(true)
         {
-            _text[0].text = "GAME OVER";
+            _gameOverText[0].text = "GAME OVER";
             yield return new WaitForSeconds(0.5f);
-            _text[0].text = "";
+            _gameOverText[0].text = "";
             yield return new WaitForSeconds(0.5f);
         }
     }

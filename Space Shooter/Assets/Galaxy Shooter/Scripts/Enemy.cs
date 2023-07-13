@@ -207,8 +207,5 @@ public class Enemy : MonoBehaviour
                 }
                 break;
         }
-
-
-
     }
 }

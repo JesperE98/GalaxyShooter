@@ -12,14 +12,10 @@ public class GameManager : MonoBehaviour
     public bool _isCoopMode = false;
 
     [SerializeField] private GameObject _pausMenu;
-    [SerializeField] private Button _button;
     [SerializeField] private bool _isGameOver = false;
-
-    private bool _paused = false;
 
     private void Start()
     {
-        _button = GetComponent<Button>();
         _spawnManager = GetComponent<SpawnManager>();
     }
 

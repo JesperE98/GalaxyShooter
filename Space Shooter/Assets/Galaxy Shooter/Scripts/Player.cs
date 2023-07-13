@@ -206,7 +206,16 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(10.0f);
         _isTripleShotActive = false;
-        _uiManager._text[2].gameObject.SetActive(false);
+        if (_isPlayerOne == true)
+        {
+            _uiManager._powerUpText[0].gameObject.SetActive(false);
+        }
+        else if (_isPlayerTwo == true)
+        {
+            _uiManager._powerUpText2[0].gameObject.SetActive(false);
+
+        }
+
     }
 
     public void SpeedBoostActive()
@@ -220,10 +229,21 @@ public class Player : MonoBehaviour
     }
     IEnumerator SpeedBoostPowerDownRoutine()
     {
-        yield return new WaitForSeconds(5.0f);
-        _uiManager._text[3].gameObject.SetActive(false);
-        _isSpeedBoostActive = false;
-        _movementSpeed /= _speedMultiplier;
+        if (_isPlayerOne != false)
+        {
+            yield return new WaitForSeconds(5.0f);
+            _uiManager._powerUpText[1].gameObject.SetActive(false);
+            _isSpeedBoostActive = false;
+            _movementSpeed /= _speedMultiplier;
+        }
+        else if (_isPlayerTwo != false)
+        {
+            yield return new WaitForSeconds(5.0f);
+            _uiManager._powerUpText2[1].gameObject.SetActive(false);
+            _isSpeedBoostActive = false;
+            _movementSpeed /= _speedMultiplier;
+        }
+
     }
 
     public void ShieldActive()
@@ -254,7 +274,7 @@ public class Player : MonoBehaviour
             {
                 _isShieldActive = false;
                 _shieldPrefab.SetActive(false);
-                _uiManager._text[4].gameObject.SetActive(false);
+                _uiManager._powerUpText[2].gameObject.SetActive(false);
                 return;
             }
 
@@ -283,7 +303,7 @@ public class Player : MonoBehaviour
             {
                 _isShieldActive = false;
                 _shieldPrefab.SetActive(false);
-                _uiManager._text[4].gameObject.SetActive(false);
+                _uiManager._powerUpText2[2].gameObject.SetActive(false);
                 return;
             }
 
