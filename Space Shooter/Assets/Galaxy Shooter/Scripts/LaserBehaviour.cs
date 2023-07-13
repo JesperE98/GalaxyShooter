@@ -75,7 +75,7 @@ public class LaserBehaviour : MonoBehaviour
 
                     if (_player != null)
                     {
-                        _player.Damage();
+                        _player.PlayerOneDamage();
                     }
                     Destroy(this.gameObject);
 
@@ -94,7 +94,23 @@ public class LaserBehaviour : MonoBehaviour
 
                     if (_player != null)
                     {
-                        _player.Damage();
+                        _player.PlayerOneDamage();
+                    }
+                    Destroy(this.gameObject);
+
+                    if (_enemy == null)
+                    {
+                        this.gameObject.SetActive(false);
+                    }
+                }
+                else if (other.CompareTag("PlayerTwo") && _isEnemyLaser == true)
+                {
+                    Player _player = other.GetComponent<Player>();
+                    Enemy _enemy = other.GetComponent<Enemy>();
+
+                    if (_player != null)
+                    {
+                        _player.PlayerTwoDamage();
                     }
                     Destroy(this.gameObject);
 

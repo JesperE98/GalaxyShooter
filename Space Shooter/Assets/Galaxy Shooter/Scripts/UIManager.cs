@@ -7,8 +7,11 @@ using TMPro;
 public class UIManager : MonoBehaviour 
 {
     public TMP_Text _scoreText;
+    public TMP_Text _scoreText2;
     public Sprite[] _livesSprite;
+    public Sprite[] _livesSprite2;
     public Image _livesImg;
+    public Image _livesImg2;
 
     public TMP_Text[] _text;
 
@@ -19,19 +22,49 @@ public class UIManager : MonoBehaviour
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _text[0].gameObject.SetActive(false);
         _text[1].gameObject.SetActive(false);
-        _scoreText.text = "Score: " + 0;
+
+        switch(_gameManager._isCoopMode)
+        {
+            case false:
+                _scoreText.text = "Score: " + 0;
+                break;
+
+            case true:
+                _scoreText.text = "Score: " + 0;
+                _scoreText2.text = "Score: " + 0;
+                break;
+        }
+
     }
 
-    public void UIScoreManager(int playerScore)
+    public void PlayerOneUIScoreManager(int playerOneScore)
     {       
-        _scoreText.text = "Score: " + playerScore.ToString();
+        _scoreText.text = "Score: " + playerOneScore.ToString();
     }
 
-    public void UpdateLives(int currentLives)
+    public void PlayerTwoUIScoreManager(int playerTwoScore)
     {
-        _livesImg.sprite = _livesSprite[currentLives];
+        _scoreText2.text = "Score: " + playerTwoScore.ToString();
+    }
 
-        if (currentLives == 0)
+    public void UpdatePlayerOneLives(int playerOneLives)
+    {
+        _livesImg.sprite = _livesSprite[playerOneLives];
+
+
+        if (playerOneLives == 0 )
+        {
+            GameOverSequence();
+            _gameManager.GameOver();
+        }
+    }
+
+    public void UpdatePlayerTwoLives(int playerTwoLives)
+    {
+        _livesImg2.sprite = _livesSprite2[playerTwoLives];
+
+
+        if (playerTwoLives == 0)
         {
             GameOverSequence();
             _gameManager.GameOver();

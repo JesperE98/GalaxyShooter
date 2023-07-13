@@ -24,7 +24,8 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject[] _playerEngineDamagedPrefabs;
 
     private float _movementSpeed = 5f;
-    private int _score;
+    private int _playerOneScore;
+    private int _playerTwoScore;
     private int _playerOneLives = 3;
     private int _playerTwoLives = 3;
     private bool _isTripleShotActive = false;
@@ -165,34 +166,74 @@ public class Player : MonoBehaviour
         _shieldPrefab.SetActive(true);       
     }
 
-    public void ScoreManager(int points)
+    public void PlayerOneScoreManager(int playerOnePoints)
     {
-        _score += points;
-        _uiManager.UIScoreManager(_score);
+        _playerOneScore += playerOnePoints;
+
+        _uiManager.PlayerOneUIScoreManager(_playerOneScore);
     }
 
-    public void Damage()
+    public void PlayerTwoScoreManager(int playerTwoPoints)
     {
-        if (_isShieldActive == true)
+        _playerTwoScore += playerTwoPoints;
+
+        _uiManager.PlayerTwoUIScoreManager(_playerTwoScore);
+    }
+
+    public void PlayerOneDamage()
+    {
+        if (_isPlayerOne == true)
         {
-            _isShieldActive = false;
-            _shieldPrefab.SetActive(false);
-            _uiManager._text[4].gameObject.SetActive(false);
-            return;
+            if (_isShieldActive == true)
+            {
+                _isShieldActive = false;
+                _shieldPrefab.SetActive(false);
+                _uiManager._text[4].gameObject.SetActive(false);
+                return;
+            }
+
+            _playerOneLives--;
+            _uiManager.UpdatePlayerOneLives(_playerOneLives);
+
+            if (_playerOneLives == 2) { _playerEngineDamagedPrefabs[0].SetActive(true); }
+
+            if (_playerOneLives == 1) { _playerEngineDamagedPrefabs[1].SetActive(true); }
+
+            if (_playerOneLives < 1)
+            {
+                Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+                _spawnManager.StopTheGame();
+                Destroy(this.gameObject, 0.3f);
+            }
         }
 
-        _playerOneLives--;
-        _uiManager.UpdateLives(_playerOneLives);
+    }
 
-        if (_playerOneLives == 2) { _playerEngineDamagedPrefabs[0].SetActive(true); }
-
-        if (_playerOneLives == 1) { _playerEngineDamagedPrefabs[1].SetActive(true); }
-
-        if (_playerOneLives < 1)
+    public void PlayerTwoDamage()
+    {
+        if (_isPlayerTwo == true)
         {
-            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-            _spawnManager.StopTheGame();
-            Destroy(this.gameObject, 0.3f);          
+            if (_isShieldActive == true)
+            {
+                _isShieldActive = false;
+                _shieldPrefab.SetActive(false);
+                _uiManager._text[4].gameObject.SetActive(false);
+                return;
+            }
+
+            _playerTwoLives--;
+            _uiManager.UpdatePlayerTwoLives(_playerTwoLives);
+
+            if (_playerTwoLives == 2) { _playerEngineDamagedPrefabs[0].SetActive(true); }
+
+            if (_playerTwoLives == 1) { _playerEngineDamagedPrefabs[1].SetActive(true); }
+
+            if (_playerTwoLives < 1)
+            {
+                Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+                _spawnManager.StopTheGame();
+                Destroy(this.gameObject, 0.3f);
+            }
         }
     }
 }

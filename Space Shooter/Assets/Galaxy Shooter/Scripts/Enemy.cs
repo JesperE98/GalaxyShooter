@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
 
     private GameManager _gameManager;
     private Player _player;
+    private Player _player2;
     private Animator _animator;
     private BoxCollider2D _boxCollider2D;
     private AudioSource _audioSource;
@@ -33,7 +34,7 @@ public class Enemy : MonoBehaviour
 
             case true:
                 _player = GameObject.Find("Player").GetComponent<Player>();
-                _player = GameObject.Find("Player_2").GetComponent<Player>();
+                _player2 = GameObject.Find("Player_2").GetComponent<Player>();
                 break;
         }
 
@@ -109,7 +110,7 @@ public class Enemy : MonoBehaviour
 
                     if (_player != null)
                     {
-                        _player.Damage();
+                        _player.PlayerOneDamage();
                     }
 
                     _audioSource.Play();
@@ -126,7 +127,7 @@ public class Enemy : MonoBehaviour
 
                     if (_player != null)
                     {
-                        _player.ScoreManager(10);
+                        _player.PlayerOneScoreManager(10);
                     }
 
                     _audioSource.Play();
@@ -145,7 +146,7 @@ public class Enemy : MonoBehaviour
 
                     if (_player != null)
                     {
-                        _player.Damage();
+                        _player.PlayerOneDamage();
                     }
 
                     _audioSource.Play();
@@ -162,7 +163,7 @@ public class Enemy : MonoBehaviour
 
                     if (_player != null)
                     {
-                        _player.ScoreManager(10);
+                        _player.PlayerOneScoreManager(10);
                     }
 
                     _audioSource.Play();
@@ -177,9 +178,9 @@ public class Enemy : MonoBehaviour
                     _isEnemyDestroyed = true;
                     _enemyThrusterPrefab.SetActive(false);
 
-                    if (_player != null)
+                    if (_player2 != null)
                     {
-                        _player.Damage();
+                        _player2.PlayerTwoDamage();
                     }
 
                     _audioSource.Play();
@@ -187,16 +188,16 @@ public class Enemy : MonoBehaviour
                     _movementSpeed = 1.5f;
                     Destroy(this.gameObject, 3.0f);
                 }
-                else if (other.CompareTag("Laser"))
+                else if (other.CompareTag("PlayerTwoLaser"))
                 {
                     Destroy(_boxCollider2D);
                     Destroy(other.gameObject);
                     _isEnemyDestroyed = true;
                     _enemyThrusterPrefab.SetActive(false);
 
-                    if (_player != null)
+                    if (_player2 != null)
                     {
-                        _player.ScoreManager(10);
+                        _player2.PlayerTwoScoreManager(10);
                     }
 
                     _audioSource.Play();

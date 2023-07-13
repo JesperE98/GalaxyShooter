@@ -319,8 +319,8 @@ MonoBehaviour:
   _isPlayerOne: 0
   _isPlayerTwo: 1
   _fireRate: 0.25
-  _laserPrefab: {fileID: 2803492048818829021, guid: 10d44cd02082309488edae6f7c5f9680, type: 3}
-  _tripleShotPrefab: {fileID: 4008165516249622695, guid: d05a4c82a6c47984b8ecfcca676de4f2, type: 3}
+  _laserPrefab: {fileID: 2803492048818829021, guid: 676d916b3cbc0674c9c549e6f67cf20d, type: 3}
+  _tripleShotPrefab: {fileID: 4008165516249622695, guid: 7404fb693e8127a4384c076e940c8be6, type: 3}
   _shieldPrefab: {fileID: 154485532765925005}
   _explosionPrefab: {fileID: 152757677290898673, guid: edc6acb3069bb18489a975c9275b2a09, type: 3}
   _laserSoundClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
