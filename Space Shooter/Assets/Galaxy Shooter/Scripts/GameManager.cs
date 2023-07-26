@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     private SpawnManager _spawnManager;
     private UIManager _uiManager;
 
+    [SerializeField] private GameObject _player;
+    [SerializeField] private GameObject _coopPlayers;
+
     public bool _isCoopMode = false;
 
     [SerializeField] private GameObject _pausMenu;
@@ -16,7 +19,20 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _spawnManager = GetComponent<SpawnManager>();
+        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+
+        switch(_isCoopMode)
+        {
+            case false:
+                Instantiate(_player, Vector3.zero, Quaternion.identity);
+
+                break;
+
+            case true:
+                Instantiate(_coopPlayers, Vector3.zero, Quaternion.identity);
+
+                break;
+        }
     }
 
     private void Update()
@@ -31,6 +47,7 @@ public class GameManager : MonoBehaviour
                 else if (Input.GetKeyDown(KeyCode.R) && _isGameOver == true)
                 {
                     SceneManager.LoadScene(1);
+                    Instantiate(_player, Vector3.zero, Quaternion.identity);
                 }
                 break;
 
@@ -42,6 +59,7 @@ public class GameManager : MonoBehaviour
                 else if (Input.GetKeyDown(KeyCode.R) && _isGameOver == true)
                 {
                     SceneManager.LoadScene(2);
+                    Instantiate(_coopPlayers, Vector3.zero, Quaternion.identity);
                 }
                 break;
         }

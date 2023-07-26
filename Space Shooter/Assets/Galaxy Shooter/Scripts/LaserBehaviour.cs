@@ -14,7 +14,7 @@ public class LaserBehaviour : MonoBehaviour
     private void Start()
     {
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        _player = GameObject.Find("Player").GetComponent<Player>();
+        _player = GameObject.Find("Player(Clone)").GetComponent<Player>();
     }
 
     void Update()

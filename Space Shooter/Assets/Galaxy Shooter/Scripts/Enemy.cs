@@ -29,12 +29,12 @@ public class Enemy : MonoBehaviour
         switch(_gameManager._isCoopMode)
         {
             case false: 
-                _player = GameObject.Find("Player").GetComponent<Player>();
+                _player = GameObject.Find("Player(Clone)").GetComponent<Player>();
                 break;
 
             case true:
-                _player = GameObject.Find("Player").GetComponent<Player>();
-                _player2 = GameObject.Find("Player_2").GetComponent<Player>();
+                _player = GameObject.Find("Player(Clone)").GetComponent<Player>();
+                _player2 = GameObject.Find("Player_2(Clone)").GetComponent<Player>();
                 break;
         }
 
