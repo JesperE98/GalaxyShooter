@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     private bool _isEnemyDestroyed = false;
 
     private GameManager _gameManager;
+    private UIManager _uiManager;
     private Player _player;
     private Player _player2;
     private Animator _animator;
@@ -25,6 +26,7 @@ public class Enemy : MonoBehaviour
     void Awake()
     {
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _uiManager = GetComponent<UIManager>();
 
         switch(_gameManager._isCoopMode)
         {

@@ -9,17 +9,19 @@ public class GameManager : MonoBehaviour
     private SpawnManager _spawnManager;
     private UIManager _uiManager;
 
-    [SerializeField] private GameObject _player;
-    [SerializeField] private GameObject _coopPlayers;
+    private Animator _pauseAnimator;
 
     public bool _isCoopMode = false;
 
+    [SerializeField] private GameObject _player;
+    [SerializeField] private GameObject _coopPlayers;
     [SerializeField] private GameObject _pausMenu;
     [SerializeField] private bool _isGameOver = false;
 
     private void Start()
     {
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        _pauseAnimator = GameObject.Find("PausMenu").GetComponent<Animator>();
 
         switch(_isCoopMode)
         {
@@ -33,6 +35,7 @@ public class GameManager : MonoBehaviour
 
                 break;
         }
+        _pauseAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
     }
 
     private void Update()
@@ -63,10 +66,25 @@ public class GameManager : MonoBehaviour
                 }
                 break;
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKey(KeyCode.Escape))
         {
-            _pausMenu.SetActive(isActiveAndEnabled);
+            _pausMenu.SetActive(true);
+            _pauseAnimator.SetBool("PausMenuActivated", true);
+            PauseTheGame();
         }
+    }
+
+    public void PauseTheGame()
+    {
+
+        Time.timeScale = 0f;      
+    }
+
+    public void ResumePlay()
+    {
+        _pausMenu.SetActive(false);
+        _pauseAnimator.SetBool("PausMenuActivated", false);
+        Time.timeScale = 1f;
     }
 
     public void GameOver()

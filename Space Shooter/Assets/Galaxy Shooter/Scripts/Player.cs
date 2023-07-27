@@ -289,6 +289,8 @@ public class Player : MonoBehaviour
             {
                 Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
                 _spawnManager.StopTheGame();
+                _gameManager.GameOver();
+                _uiManager.CheckForHighscore();
                 Destroy(this.gameObject, 0.3f);
             }
         }
@@ -318,6 +320,7 @@ public class Player : MonoBehaviour
             {
                 Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
                 _spawnManager.StopTheGame();
+                _gameManager.GameOver();
                 Destroy(this.gameObject, 0.3f);
             }
         }
