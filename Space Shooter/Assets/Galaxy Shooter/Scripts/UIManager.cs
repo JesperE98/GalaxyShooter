@@ -24,7 +24,7 @@ public class UIManager : MonoBehaviour
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         _highScore = PlayerPrefs.GetInt("HighScore", 0);
-        _highscoreText.text = "HighScore: " + _highScore;
+       
         _gameOverText[0].gameObject.SetActive(false);
         _gameOverText[1].gameObject.SetActive(false);
 
@@ -32,6 +32,7 @@ public class UIManager : MonoBehaviour
         {
             case false:
                 _scoreText.text = "Score: " + 0;
+                _highscoreText.text = "HighScore: " + _highScore;
                 break;
 
             case true:
@@ -66,26 +67,15 @@ public class UIManager : MonoBehaviour
     public void UpdatePlayerOneLives(int playerOneLives)
     {
         _livesImg.sprite = _livesSprite[playerOneLives];
-
-
-        if (playerOneLives == 0 )
-        {
-            GameOverSequence();
-        }
     }
 
     public void UpdatePlayerTwoLives(int playerTwoLives)
     {
         _livesImg2.sprite = _livesSprite2[playerTwoLives];
 
-
-        if (playerTwoLives == 0)
-        {
-            GameOverSequence();
-        }
     }
 
-    void GameOverSequence()
+    public void GameOverSequence()
     {
         _gameOverText[0].gameObject.SetActive(true);
         _gameOverText[1].gameObject.SetActive(true);

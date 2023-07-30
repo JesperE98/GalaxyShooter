@@ -6,6 +6,7 @@ public class LaserBehaviour : MonoBehaviour
 {
     private GameManager _gameManager;
     private Player _player;
+    private Player _player2;
     private Enemy _enemy;
 
     private float _speed = 8.0f;
@@ -14,7 +15,18 @@ public class LaserBehaviour : MonoBehaviour
     private void Start()
     {
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        _player = GameObject.Find("Player(Clone)").GetComponent<Player>();
+
+        switch (_gameManager._isCoopMode)
+        {
+            case false:
+                _player = GameObject.Find("PlayerContainer").GetComponentInChildren<Player>();
+                break;
+
+            case true:
+                _player = GameObject.Find("PlayerContainer").GetComponentInChildren<Player>();
+                _player2 = GameObject.Find("PlayerContainer").GetComponentInChildren<Player>();
+                break;
+        }
     }
 
     void Update()
@@ -89,15 +101,16 @@ public class LaserBehaviour : MonoBehaviour
             case true:
                 if (other.CompareTag("Player") && _isEnemyLaser == true)
                 {
-                    Player _player = other.GetComponent<Player>();
-                    Enemy _enemy = other.GetComponent<Enemy>();
+                    //Player _player = other.GetComponent<Player>();
+                    
 
-                    if (_player != null)
+                    if (other != null)
                     {
                         _player.PlayerOneDamage();
                     }
                     Destroy(this.gameObject);
 
+                    Enemy _enemy = other.GetComponent<Enemy>();
                     if (_enemy == null)
                     {
                         this.gameObject.SetActive(false);
@@ -106,14 +119,15 @@ public class LaserBehaviour : MonoBehaviour
                 else if (other.CompareTag("PlayerTwo") && _isEnemyLaser == true)
                 {
                     Player _player = other.GetComponent<Player>();
-                    Enemy _enemy = other.GetComponent<Enemy>();
+                    
 
-                    if (_player != null)
+                    if (other != null)
                     {
                         _player.PlayerTwoDamage();
                     }
                     Destroy(this.gameObject);
 
+                    Enemy _enemy = other.GetComponent<Enemy>();
                     if (_enemy == null)
                     {
                         this.gameObject.SetActive(false);

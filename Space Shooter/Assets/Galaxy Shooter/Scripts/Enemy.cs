@@ -31,12 +31,12 @@ public class Enemy : MonoBehaviour
         switch(_gameManager._isCoopMode)
         {
             case false: 
-                _player = GameObject.Find("Player(Clone)").GetComponent<Player>();
+                _player = GameObject.Find("PlayerContainer").GetComponentInChildren<Player>();
                 break;
 
             case true:
-                _player = GameObject.Find("Player(Clone)").GetComponent<Player>();
-                _player2 = GameObject.Find("Player_2(Clone)").GetComponent<Player>();
+                _player = GameObject.Find("PlayerContainer").GetComponentInChildren<Player>();
+                _player2 = GameObject.Find("PlayerContainer").GetComponentInChildren<Player>();
                 break;
         }
 
@@ -142,6 +142,7 @@ public class Enemy : MonoBehaviour
             case true:
                 if (other.CompareTag("Player"))
                 {
+                    Player _player = other.GetComponent<Player>();
                     Destroy(_boxCollider2D);
                     _isEnemyDestroyed = true;
                     _enemyThrusterPrefab.SetActive(false);
@@ -174,8 +175,10 @@ public class Enemy : MonoBehaviour
                     Destroy(this.gameObject, 3.0f);
                 }
 
+                
                 if (other.CompareTag("PlayerTwo"))
                 {
+                    Player _player2 = other.GetComponent<Player>();
                     Destroy(_boxCollider2D);
                     _isEnemyDestroyed = true;
                     _enemyThrusterPrefab.SetActive(false);

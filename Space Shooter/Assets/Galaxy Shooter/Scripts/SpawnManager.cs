@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 
 public class SpawnManager : MonoBehaviour
@@ -10,10 +11,51 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject _enemyPrefab;
     [SerializeField] private GameObject _enemyContainer;
     [SerializeField] private GameObject _powerUpContainer;
-    [SerializeField] private GameObject[] _powerUps; 
+    [SerializeField] private GameObject _playerContainer;
+    [SerializeField] private GameObject[] _powerUps;
+    [SerializeField] private GameObject _player;
+    [SerializeField] private GameObject _player2;
 
     private bool _stopSpawning = false;
     private bool _randomPowerUpSpawning = false;
+
+    private GameManager _gameManager;
+
+    private void Start()
+    {
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        
+        switch (_gameManager._isCoopMode)
+        {
+            case false:
+                GameObject _newPlayer = Instantiate(_player, Vector3.zero, Quaternion.identity);
+                _newPlayer.transform.parent = _playerContainer.transform;
+                break;
+
+            case true:
+                GameObject _newPlayer1 = Instantiate(_player, Vector3.zero, Quaternion.identity);
+                GameObject _newPlayer2 = Instantiate(_player2, Vector3.zero, Quaternion.identity);
+
+                _newPlayer1.transform.parent = _playerContainer.transform;
+                _newPlayer2.transform.parent = _playerContainer.transform;
+                break;
+        }
+    }
+
+    public void SinglePlayerMode()
+    {
+        GameObject _newPlayer = Instantiate(_player, Vector3.zero, Quaternion.identity);
+        _newPlayer.transform.parent = _playerContainer.transform;
+    }
+
+    public void CoopMode()
+    {
+        GameObject _newPlayer1 = Instantiate(_player, Vector3.zero, Quaternion.identity);
+        GameObject _newPlayer2 = Instantiate(_player2, Vector3.zero, Quaternion.identity);
+
+        _newPlayer1.transform.parent = _enemyContainer.transform;
+        _newPlayer2.transform.parent = _enemyContainer.transform;
+    }
 
     public void StartSpawning()
     {
@@ -49,7 +91,28 @@ public class SpawnManager : MonoBehaviour
 
     public void StopTheGame()
     {
-        _stopSpawning = true;
-        _randomPowerUpSpawning = true;
+        switch(_gameManager._isCoopMode)
+        {
+            case false:
+                if (_gameManager._player1AreDead == true)
+                {
+                    _stopSpawning = true;
+                    _randomPowerUpSpawning = true;
+                }
+                break;
+
+            case true:
+                if (_gameManager._player1AreDead == true && _gameManager._player2AreDead == true)
+                {
+                    _stopSpawning = true;
+                    _randomPowerUpSpawning = true;
+                }
+                else
+                {
+                    _stopSpawning = false;
+                    _randomPowerUpSpawning = false;
+                }
+                break;                
+        }
     }
 }

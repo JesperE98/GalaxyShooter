@@ -285,13 +285,15 @@ public class Player : MonoBehaviour
 
             if (_playerOneLives == 1) { _playerEngineDamagedPrefabs[1].SetActive(true); }
 
-            if (_playerOneLives < 1)
+            if (_playerOneLives == 0)
             {
+                _gameManager._player1AreDead = true;
                 Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
                 _spawnManager.StopTheGame();
                 _gameManager.GameOver();
                 _uiManager.CheckForHighscore();
-                Destroy(this.gameObject, 0.3f);
+                //Destroy(this.gameObject, 0.3f);
+                this.gameObject.SetActive(false);
             }
         }
 
@@ -316,12 +318,14 @@ public class Player : MonoBehaviour
 
             if (_playerTwoLives == 1) { _playerEngineDamagedPrefabs[1].SetActive(true); }
 
-            if (_playerTwoLives < 1)
+            if (_playerTwoLives == 0)
             {
+                _gameManager._player2AreDead = true;
                 Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
                 _spawnManager.StopTheGame();
                 _gameManager.GameOver();
-                Destroy(this.gameObject, 0.3f);
+                this.gameObject.SetActive(false);
+                //Destroy(this.gameObject, 0.3f);
             }
         }
     }

@@ -12,9 +12,9 @@ public class GameManager : MonoBehaviour
     private Animator _pauseAnimator;
 
     public bool _isCoopMode = false;
+    public bool _player1AreDead = false;
+    public bool _player2AreDead = false;
 
-    [SerializeField] private GameObject _player;
-    [SerializeField] private GameObject _coopPlayers;
     [SerializeField] private GameObject _pausMenu;
     [SerializeField] private bool _isGameOver = false;
 
@@ -22,19 +22,7 @@ public class GameManager : MonoBehaviour
     {
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         _pauseAnimator = GameObject.Find("PausMenu").GetComponent<Animator>();
-
-        switch(_isCoopMode)
-        {
-            case false:
-                Instantiate(_player, Vector3.zero, Quaternion.identity);
-
-                break;
-
-            case true:
-                Instantiate(_coopPlayers, Vector3.zero, Quaternion.identity);
-
-                break;
-        }
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _pauseAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
     }
 
@@ -50,7 +38,7 @@ public class GameManager : MonoBehaviour
                 else if (Input.GetKeyDown(KeyCode.R) && _isGameOver == true)
                 {
                     SceneManager.LoadScene(1);
-                    Instantiate(_player, Vector3.zero, Quaternion.identity);
+                    _spawnManager.SinglePlayerMode();
                 }
                 break;
 
@@ -62,7 +50,7 @@ public class GameManager : MonoBehaviour
                 else if (Input.GetKeyDown(KeyCode.R) && _isGameOver == true)
                 {
                     SceneManager.LoadScene(2);
-                    Instantiate(_coopPlayers, Vector3.zero, Quaternion.identity);
+                    _spawnManager.CoopMode();
                 }
                 break;
         }
@@ -76,7 +64,6 @@ public class GameManager : MonoBehaviour
 
     public void PauseTheGame()
     {
-
         Time.timeScale = 0f;      
     }
 
@@ -90,6 +77,23 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         _isGameOver = true;
+
+        switch (_isCoopMode)
+        {
+            case false:
+                if (_player1AreDead == true)
+                {
+                    _uiManager.GameOverSequence();
+                }
+                break;
+
+            case true:
+                if (_player1AreDead == true && _player2AreDead == true)
+                {
+                    _uiManager.GameOverSequence();
+                }
+                break;
+        }
     }
 
     public void QuitToMainMenu()

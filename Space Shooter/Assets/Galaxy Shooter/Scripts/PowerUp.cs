@@ -18,16 +18,16 @@ public class PowerUp : MonoBehaviour
     {
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-         
-        switch(_gameManager._isCoopMode)
+
+        switch (_gameManager._isCoopMode)
         {
             case false:
-                _player = GameObject.Find("Player(Clone)").GetComponent<Player>();
+                _player = GameObject.Find("PlayerContainer").GetComponentInChildren<Player>();
                 break;
 
             case true:
-                _player = GameObject.Find("Player(Clone)").GetComponent<Player>();
-                _player2 = GameObject.Find("Player_2(Clone)").GetComponent<Player>();
+                _player = GameObject.Find("PlayerContainer").GetComponentInChildren<Player>();
+                _player2 = GameObject.Find("PlayerContainer").GetComponentInChildren<Player>();
                 break;
         }
     }
@@ -61,6 +61,7 @@ public class PowerUp : MonoBehaviour
             case false:
                 if (other.CompareTag("Player"))
                 {
+                    Player _player = other.GetComponent<Player>();
                     AudioSource.PlayClipAtPoint(_clip, transform.position);
                     switch (_powerUpID)
                     {
@@ -94,6 +95,7 @@ public class PowerUp : MonoBehaviour
             case true:
                 if (other.CompareTag("Player"))
                 {
+                    Player _player = other.GetComponent<Player>();
                     AudioSource.PlayClipAtPoint(_clip, transform.position);
                     switch (_powerUpID)
                     {
@@ -124,6 +126,7 @@ public class PowerUp : MonoBehaviour
                 }
                 else if (other.CompareTag("PlayerTwo"))
                 {
+                    Player _player2 = other.GetComponent<Player>();
                     AudioSource.PlayClipAtPoint(_clip, transform.position);
                     switch (_powerUpID)
                     {
